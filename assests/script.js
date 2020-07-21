@@ -135,7 +135,7 @@ function renderQuestion() {
     chC = questions[position].c;
     chD = questions[position].d;
     
-    quizz.innerHtml ="<h3>"+question+"</h3>";
+    quizz.innerHTML = "<h3>"+question+"</h3>";
 
     quizz.innerHTML += "<label> <input type ='radio' name = 'choices' value='a'>"+chA+"</label><br>";
     quizz.innerHTML += "<label> <input type ='radio' name = 'choices' value='b'>"+chB+"</label><br>";
