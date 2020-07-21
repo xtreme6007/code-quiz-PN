@@ -110,6 +110,9 @@ var questions = [
 
 ]
 // functions
+function save(){
+    localStorage.setItem("initals",initals);
+  }
 
 // get function
 function get(x) {
@@ -121,7 +124,15 @@ function renderQuestion() {
     quizz = get("quizz");
     // if quiz is complete
     if (position >= questions.length) {
-        quizz.innerHTML = "<h2>You Got " + correct + " of " + questions.length + " questions correct</h2>";
+        quizz.innerHTML = "<h2>You Got " + correct + " of " + questions.length + " questions correct</h2><br>"+
+        "<p> Type your initals below</p>" +
+        "<input id='initals' type='text'>"+
+        "<button id='save'>Save</button>";
+        var inital = document.getElementById("initals");
+        var initals= inital.value;
+          var saveBttn = document.getElementById("save")
+          saveBttn.addEventListener("click", save)
+        
         
 
         position = 0;
@@ -161,6 +172,9 @@ function checkAnswer() {
     }
     position++;
     renderQuestion();
+}
+function saveScore(){
+get
 }
 //display quiz imediatly will change to a button later
 startbttn.addEventListener("click", renderQuestion);
