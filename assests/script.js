@@ -1,117 +1,150 @@
-var pos = 0;
+// variables
+
+
+
+var position = 0;
 var correct = 0;
 var quizz, status, question, choices, chA, chB, chC, Chd;
 
 var questions = [
     {
-      question: "What does DOM stand for?",
-      answers: {
-        a: "Dudes of Matrix",
-        b: "Directory of Markdown",
-        c: "Document Object Model",
-        d: "Nothing"
-  
-      },
-      correctAnswer: "c"
+        question: "What does DOM stand for?",
+            a: "Dudes of Matrix",
+            b: "Directory of Markdown",
+            c: "Document Object Model",
+            d: "Nothing",
+            
+            correctAnswer: "c"
     },
-  
+
     {
-      question: "Who invented JavaScript?",
-      answers: {
-        a: "Douglas Crockford",
-        b: "Sheryl Sandberg",
-        c: "Brendan Eich"
-      },
-      correctAnswer: "c"
+        question: "Who invented JavaScript?",
+            a: "Douglas Crockford",
+            b: "Sheryl Sandberg",
+            c: "Brendan Eich",
+            d: "Preston Nichols",
+            correctAnswer: "c"
     },
     {
-      question: "What is the correct tag to write javascript in?",
-      answers: {
-        a: "&lt;head&gt;",
-        b: "&lt;script&gt;",
-        c: "&lt;style&gt;"
-      },
-      correctAnswer: "b"
-  
+        question: "What is the correct tag to write javascript in?",
+            a: "&lt;head&gt;",
+            b: "&lt;script&gt;",
+            c: "&lt;style&gt;",
+            d: "&lt;java&gt;",
+
+            correctAnswer: "b"
+
     },
     {
-      question: "How do you declare a varaible?",
-      answers: {
-        a: "var name = 'preston'",
-        b: "&lt;script&gt;",
-        c: "name = 'preston'"
-      },
-      correctAnswer: "a"
-  
+        question: "How do you declare a varaible?",
+            a: "var name = 'preston'",
+            b: "&lt;script&gt;",
+            c: "name = 'preston'",
+            d: " var = 'name' ",
+
+            correctAnswer: "a"
+
     },
-  
+
     {
-      question: "Which one of these is a JavaScript package manager?",
-      answers: {
-        a: "Node.js",
-        b: "TypeScript",
-        c: "npm",
-        d: "lsp"
-      },
-      correctAnswer: "c"
+        question: "Which one of these is a JavaScript package manager?",
+
+            a: "Node.js",
+            b: "TypeScript",
+            c: "npm",
+            d: "lsp",
+
+            correctAnswer: "c"
     },
-  
+
     {
-      question: "Which tool can you use to ensure code quality?",
-      answers: {
-        a: "Angular",
-        b: "jQuery",
-        c: "RequireJS",
-        d: "ESLint"
-      },
-      correctAnswer: "d"
-    },
-    {
-      question: "What is the correct syntax for referring to an external script called 'main.js'?",
-      answers: {
-        a: "&lt;script href = 'main.js'&gt;",
-        b: "&lt;link href \= \'main.js'&gt;",
-        c: "&lt;main.js&gt;&gt;",
-        d: "&lt;script src \= \'main.js'&gt;"
-      },
-      correctAnswer: "d"
-  
+        question: "Which tool can you use to ensure code quality?",
+
+            a: "Angular",
+            b: "jQuery",
+            c: "RequireJS",
+            d: "ESLint",
+        
+            correctAnswer: "d"
     },
     {
-      question: "Which of the following is not a reserved word in javaScript?",
-      answers: {
-        a: "interface",
-        b: "throws",
-        c: "short",
-        d: "program"
-      },
-      correctAnswer: "d"
-  
+        question: "What is the correct syntax for referring to an external script called 'main.js'?",
+
+            a: "&lt;script href = 'main.js'&gt;",
+            b: "&lt;link href \= \'main.js'&gt;",
+            c: "&lt;main.js&gt;&gt;",
+            d: "&lt;script src \= \'main.js'&gt;",
+        
+            correctAnswer: "d"
+
     },
     {
-      question: "What is the syntax for creating a function in Javascript named 'Func2'?",
-      answers: {
-        a: "function = Func2()",
-        b: "function Func2()",
-        c: "function := Func2()",
-        d: "Func2() function"
-      },
-      correctAnswer: "b"
-  
+        question: "Which of the following is not a reserved word in javaScript?",
+
+            a: "interface",
+            b: "throws",
+            c: "short",
+            d: "program",
+        
+            correctAnswer: "d"
+
     },
     {
-      question: "What is the correct syntax for making comments in javaScript?",
-      answers: {
-        a: "///*",
-        b: "&lt;!--comment--!&gt;",
-        c: "**comment**",
-        d: "//"
-      },
-      correctAnswer: "d"
+        question: "What is the syntax for creating a function in Javascript named 'Func2'?",
   
+            a: "function = Func2()",
+            b: "function Func2()",
+            c: "function := Func2()",
+            d: "Func2() function",
+            correctAnswer: "b"
+
+    },
+    {
+        question: "What is the correct syntax for making comments in javaScript?",
+            a: "///*",
+            b: "&lt;!--comment--!&gt;",
+            c: "**comment**",
+            d: "//",
+        correctAnswer: "d"
     }
-  
-  
-  
-  
+
 ]  
+// functions
+
+    // get function
+function get (x){
+    return document.getElementById(x);
+}
+    //render questions
+function renderQuestion() {
+    quizz = get("quizz");
+    if (position >= questions.length){
+        quizz.innerHTML = "<h2>You Got "+correct+" of "+questions.length+" questions correct</h2>";
+        get("test").innerHTML = "Test completed";
+
+        position = 0;
+        correct= 0;
+        return false;
+    }
+    
+    get("status").innerHTML = "Question "+(position+1)+" of "+questions.length;
+    
+    question = questions[position].question;
+    chA = questions[position].a;
+    chB = questions[position].b; 
+    chC = questions[position].c;
+    chD = questions[position].d;
+    
+    quizz.innerHtml ="<h3>"+question+"</h3>";
+
+    quizz.innerHTML += "<label> <input type ='radio' name = 'choices' value='a'>"+chA+"</label><br>";
+    quizz.innerHTML += "<label> <input type ='radio' name = 'choices' value='b'>"+chB+"</label><br>";
+    quizz.innerHTML += "<label> <input type ='radio' name = 'choices' value='c'>"+chC+"</label><br>";
+    quizz.innerHTML += "<label> <input type ='radio' name = 'choices' value='d'>"+chD+"</label><br><br>";
+    quizz.innerHTML += "<button onclick='checkAnswer()'>Submit Answer</button>";
+}
+function checkAnswer() {
+    
+}
+
+window.addEventListener("load",renderQuestion);
