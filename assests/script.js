@@ -1,10 +1,11 @@
 // variables
-var startbttn = document.getElementById("startButton")
-
+var startBttn = document.getElementById("startButton");
+var timer = document.getElementById(".timer");
 
 var position = 0;
 var correct = 0;
-var quizz, status, question, choices, chA, chB, chC, Chd;
+var quiz, status, question, choice, choices, chA, chB, chC, Chd;
+var time = 70;
 
 var questions = [
     {
@@ -14,7 +15,7 @@ var questions = [
         c: "Document Object Model",
         d: "Nothing",
 
-        correctAnswer: "c"
+        correctAnswer: "Document Object Model"
     },
 
     {
@@ -109,6 +110,19 @@ var questions = [
     }
 
 ]
+// countdown
+function setTime() {
+    var timerInterval = setInterval(function() {
+      secondsLeft--;
+      timeEl.textContent = secondsLeft + " seconds left till colorsplosion.";
+  
+      if(secondsLeft === 0) {
+        clearInterval(timerInterval);
+        sendMessage();
+      }
+  
+    }, 1000);
+  }
 // functions
 function save(){
     localStorage.setItem("initals",initals);
@@ -121,10 +135,10 @@ function get(x) {
 //render questions
 function renderQuestion() {
 
-    quizz = get("quizz");
+    quiz = get("quizz");
     // if quiz is complete
-    if (position >= questions.length) {
-        quizz.innerHTML = "<h2>You Got " + correct + " of " + questions.length + " questions correct</h2><br>"+
+    if (position >= questions.length || time === 0) {
+        quiz.innerHTML = "<h2>You Got " + correct + " of " + questions.length + " questions correct</h2><br>"+
         "<p> Type your initals below</p>" +
         "<input id='initals' type='text'>"+
         "<button id='save'>Save</button>";
@@ -151,30 +165,33 @@ function renderQuestion() {
 
     // display questions
     quizz.innerHTML = "<h3>" + question + "</h3>";
+    
 
-    // display answers with raido buttons
+    // display answers as vairable
 
-    quizz.innerHTML += "<label> <input type ='radio' name = 'choices' value='a'>" + chA + "</label><br>";
-    quizz.innerHTML += "<label> <input type ='radio' name = 'choices' value='b'>" + chB + "</label><br>";
-    quizz.innerHTML += "<label> <input type ='radio' name = 'choices' value='c'>" + chC + "</label><br>";
-    quizz.innerHTML += "<label> <input type ='radio' name = 'choices' value='d'>" + chD + "</label><br><br>";
-    quizz.innerHTML += "<button onclick='checkAnswer()'>Submit Answer</button>";
+    quizz.innerHTML += "<label> <button id = 'a' class = 'choices' value = '"+ chA + "'>" + chA +"</button></label><br>";
+    quizz.innerHTML += "<label> <button id = 'b' class = 'choices' value = '"+ chB + "'>" + chB +"</button></label><br>";
+    quizz.innerHTML += "<label> <button id = 'c' class = 'choices' value = '"+ chC + "'>" + chC +"</button></label><br>";
+    quizz.innerHTML += "<label> <button id = 'd' class = 'choices' value = '"+ chD + "'>" + chD +"</button></label><br>";
+    document.getElementById("a").addEventListener("click", checkAnswer);
+    document.getElementById("b").addEventListener("click", checkAnswer);
+    document.getElementById("c").addEventListener("click", checkAnswer);
+    document.getElementById("d").addEventListener("click", checkAnswer);
 }
+
 function checkAnswer() {
-    choices = document.getElementsByName("choices");
+    choices = document.querySelectorAll(".choices");
     for( var i = 0; i<choices.length; i++){
-        if (choices[i].checked) {
+        if (choices[i]) {
             choice = choices[i].Value;
         }
     }
-    if(choice === questions[position].correctAnsewr){
+    if(choice == questions[position].correctAnswer){
         correct++;
     }
     position++;
     renderQuestion();
 }
-function saveScore(){
-get
-}
+
 //display quiz imediatly will change to a button later
-startbttn.addEventListener("click", renderQuestion);
+startBttn.addEventListener("click", renderQuestion);
