@@ -4,8 +4,9 @@ var startBttn = document.getElementById("startButton");
 
 var position = 0;
 var correct = 0;
-var quiz, status, question, choice, choices, chA, chB, chC, Chd;
-
+var quiz, status, question, choice, choices, chA, chB, chC, Chd, iniatls;
+var time = 60;
+var timer = document.getElementById("timer");
 
 
 var questions = [
@@ -115,58 +116,100 @@ var questions = [
 
 
 // functions
-function save(){
-    localStorage.setItem("initals",initals);
-  }
+    //decrementtimer
+    
+    function setTime() {
+        var timerInterval = setInterval(function() {
+          time--;
+          timer.textContent = time;
+            
+          if (position >= questions.length || time <= 0 ) {
+            quiz.innerHTML = "<h2>You Got " + correct + " of " + questions.length + " questions correct</h2><br>" +
+                "<p> Type your initals below</p>" +
+                "<input id='initals' type='text'>" +
+                "<button id='save'>Save</button>";
+    
+            var inital = document.getElementById("initals");
+            var initals = inital.value;
+            var saveBttn = document.getElementById("save")
+            function save() {
+                var highscore = correct;
+                var initals = document.querySelector("#initals").value;
+                localStorage.setItem("Initals:", initals);
+                localStorage.setItem("Highscore:", highscore);
+            }
+            saveBttn.addEventListener("click", save)
+    
+    
+    
+            position = 0;
+            correct = 0;
+            return false;
+          /*if(time === 0) {
+            clearInterval(timerInterval);*/
+            
+          }
+         
+      
+        }, 1000);
+    }
 
-// get function
-function get(x) {
+
+    // get function
+    function get(x) {
     return document.getElementById(x);
 }
-//render questions
-function renderQuestion() {
-   
+    //render questions
+    function renderQuestion() {
+
     quiz = get("quizz");
-   
+    
     // if quiz is complete
-    if (position >= questions.length) {
-        quiz.innerHTML = "<h2>You Got " + correct + " of " + questions.length + " questions correct</h2><br>"+
-        "<p> Type your initals below</p>" +
-        "<input id='initals' type='text'>"+
-        "<button id='save'>Save</button>";
+    /*if (position >= questions.length || time <= 0 ) {
+        quiz.innerHTML = "<h2>You Got " + correct + " of " + questions.length + " questions correct</h2><br>" +
+            "<p> Type your initals below</p>" +
+            "<input id='initals' type='text'>" +
+            "<button id='save'>Save</button>";
 
         var inital = document.getElementById("initals");
-        var initals= inital.value;
-          var saveBttn = document.getElementById("save")
-          saveBttn.addEventListener("click", save)
-       
-        
+        var initals = inital.value;
+        var saveBttn = document.getElementById("save")
+        function save() {
+            var highscore = correct;
+            var initals = document.querySelector("#initals").value;
+            localStorage.setItem("Initals:", initals);
+            localStorage.setItem("Highscore:", highscore);
+        }
+        saveBttn.addEventListener("click", save)
+
+
 
         position = 0;
         correct = 0;
         return false;
-    }
+    }*/
     // show question number
     get("status").innerHTML = "Question " + (position + 1) + " of " + questions.length;
 
     question = questions[position].question;
-    //assign answer choices
+    //assign answer choices variables
     chA = questions[position].a;
     chB = questions[position].b;
     chC = questions[position].c;
     chD = questions[position].d;
 
     // display questions
-    quizz.innerHTML = "<h3>" + question + "</h3>"+"<div id = 'timer'></div>";
-    
-    
+    quizz.innerHTML = "<h2>" + question + "</h2><br>"; // + "<div id = 'timer'>" + time + "</div>";
+    timer.innerHTML = time;
+    //quizz.innerHTML = "<div id = 'timer'>" + time + "</div>"
 
-    // display answers as vairable
 
-    quizz.innerHTML += "<label> <button id = 'a' class = 'choices' value = 'a'>" + chA +"</button></label><br>";
-    quizz.innerHTML += "<label> <button id = 'b' class = 'choices' value = 'b'>" + chB +"</button></label><br>";
-    quizz.innerHTML += "<label> <button id = 'c' class = 'choices' value = 'c'>" + chC +"</button></label><br>";
-    quizz.innerHTML += "<label> <button id = 'd' class = 'choices' value = 'd'>" + chD +"</button></label><br>";
+    // display answers
+
+    quizz.innerHTML += "<label> <button id = 'a' class = 'choices' value = 'a'>" + chA + "</button></label><br>";
+    quizz.innerHTML += "<label> <button id = 'b' class = 'choices' value = 'b'>" + chB + "</button></label><br>";
+    quizz.innerHTML += "<label> <button id = 'c' class = 'choices' value = 'c'>" + chC + "</button></label><br>";
+    quizz.innerHTML += "<label> <button id = 'd' class = 'choices' value = 'd'>" + chD + "</button></label><br>";
     document.getElementById("a").addEventListener("click", checkAnswerA);
     document.getElementById("b").addEventListener("click", checkAnswerB);
     document.getElementById("c").addEventListener("click", checkAnswerC);
@@ -174,70 +217,64 @@ function renderQuestion() {
 }
 
 // checkAnswer Functions
-function checkAnswerA(){
+// if user selects A
+function checkAnswerA() {
     var userAnswer = document.getElementById("a").value;
     var answer = questions[position].correctAnswer;
-    if(userAnswer === answer) {
+    if (userAnswer === answer) {
         correct++;
     }
-    
+
     position++;
     renderQuestion();
 
 
 }
-function checkAnswerB(){
+// if user selcts B
+function checkAnswerB() {
     var userAnswer = document.getElementById("b").value;
     var answer = questions[position].correctAnswer;
-    if(userAnswer === answer) {
+    if (userAnswer === answer) {
         correct++;
     }
-    
+
     position++;
     renderQuestion();
 
 
 }
-function checkAnswerC(){
+// if user selects C
+function checkAnswerC() {
     var userAnswer = document.getElementById("c").value;
     var answer = questions[position].correctAnswer;
-    if(userAnswer === answer) {
+    if (userAnswer === answer) {
         correct++;
     }
-    
+    if (userAnswer !== answer){
+        time - 10;
+    }
+
     position++;
     renderQuestion();
 
 
 }
-function checkAnswerD(){
+// if user selects D
+function checkAnswerD() {
     var userAnswer = document.getElementById("d").value;
     var answer = questions[position].correctAnswer;
-    if(userAnswer === answer) {
+    if (userAnswer === answer) {
         correct++;
     }
-    
+
     position++;
     renderQuestion();
 
 
 }
 
-
-/*function checkAnswer() {
-    choices = document.getElementsByClassName("choices");
-    for( var i = 0; i<choices.length; i++){
-        if (choices[i]) {
-            choice = choices[i].Value;
-        }
-    }
-    if(choice == questions[position].correctAnswer){
-        correct++;
-    }
-    position++;
-    renderQuestion();
-}*/
+    
 
 //display quiz imediatly will change to a button later
 startBttn.addEventListener("click", renderQuestion);
-
+startBttn.addEventListener("click", setTime);
