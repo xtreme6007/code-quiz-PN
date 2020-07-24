@@ -123,36 +123,40 @@ var questions = [
           time--;
           timer.textContent = time;
             
-          if (position >= questions.length || time <= 0 ) {
-            quiz.innerHTML = "<h2>You Got " + correct + " of " + questions.length + " questions correct</h2><br>" +
-                "<p> Type your initals below</p>" +
-                "<input id='initals' type='text'>" +
-                "<button id='save'>Save</button>";
-    
-            var inital = document.getElementById("initals");
-            var initals = inital.value;
-            var saveBttn = document.getElementById("save")
-            function save() {
-                var highscore = correct;
-                var initals = document.querySelector("#initals").value;
-                localStorage.setItem("Initals:", initals);
-                localStorage.setItem("Highscore:", highscore);
-            }
-            saveBttn.addEventListener("click", save)
-    
-    
-    
-            position = 0;
-            correct = 0;
-            return false;
-          /*if(time === 0) {
-            clearInterval(timerInterval);*/
-            
+          if(time === 0) {
+            clearInterval(timerInterval);
+            end();
           }
          
       
         }, 1000);
     }
+
+    function end() {
+        quiz.innerHTML = "<h2>You Got " + correct + " of " + questions.length + " questions correct</h2><br>" +
+    "<p> Type your initals below</p>" +
+    "<input id='initals' type='text'>" +
+    "<button id='save'>Save</button>";
+
+var inital = document.getElementById("initals");
+var initals = inital.value;
+var saveBttn = document.getElementById("save")
+function save() {
+    var highscore = correct;
+    var initals = document.querySelector("#initals").value;
+    localStorage.setItem("Initals:", initals);
+    localStorage.setItem("Highscore:", highscore);
+}
+saveBttn.addEventListener("click", save)
+
+
+
+position = 0;
+correct = 0;
+return false;
+}
+
+
 
 
     // get function
@@ -165,7 +169,7 @@ var questions = [
     quiz = get("quizz");
     
     // if quiz is complete
-    /*if (position >= questions.length || time <= 0 ) {
+    if (position >= questions.length || timer  <= 0 ) {
         quiz.innerHTML = "<h2>You Got " + correct + " of " + questions.length + " questions correct</h2><br>" +
             "<p> Type your initals below</p>" +
             "<input id='initals' type='text'>" +
@@ -187,7 +191,7 @@ var questions = [
         position = 0;
         correct = 0;
         return false;
-    }*/
+    }
     // show question number
     get("status").innerHTML = "Question " + (position + 1) + " of " + questions.length;
 
@@ -224,6 +228,9 @@ function checkAnswerA() {
     if (userAnswer === answer) {
         correct++;
     }
+    if (userAnswer != answer){
+        time = time - 10;
+    }
 
     position++;
     renderQuestion();
@@ -237,7 +244,9 @@ function checkAnswerB() {
     if (userAnswer === answer) {
         correct++;
     }
-
+    if (userAnswer != answer){
+       time =  time - 10;
+    }
     position++;
     renderQuestion();
 
@@ -250,9 +259,10 @@ function checkAnswerC() {
     if (userAnswer === answer) {
         correct++;
     }
-    if (userAnswer !== answer){
-        time - 10;
+    if (userAnswer != answer){
+        time = time - 10;
     }
+    
 
     position++;
     renderQuestion();
@@ -265,6 +275,9 @@ function checkAnswerD() {
     var answer = questions[position].correctAnswer;
     if (userAnswer === answer) {
         correct++;
+    }
+    if (userAnswer != answer){
+       time = time - 10;
     }
 
     position++;
