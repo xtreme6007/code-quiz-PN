@@ -1,1 +1,2 @@
 # code-quiz-PN
+for this project i started by creating a html file a css file and a js file i set up my quiz container timer and status in my html. i did most of my dom manipulation in js. i created my variables and question array then started working on my functions.
