@@ -332,7 +332,7 @@ function end() {
 
 
     position = 0;
-    correct = 0;
+    
     return false;
 }
 function setTime() {
