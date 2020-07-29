@@ -383,7 +383,7 @@ function renderQuestion() {
 
 
         position = 0;
-        correct = 0;
+        
         return false;
     }
     // show question number
