@@ -238,20 +238,6 @@ var questions = [
 // functions
 //timer decrementtimer
 
-function setTime() {
-    var timerInterval = setInterval(function () {
-        time--;
-        timer.textContent = time;
-
-        if (time <= 0 || position >= questions.length) {
-            clearInterval(timerInterval);
-            end();
-            time = 0
-        }
-
-
-    }, 1000);
-}
 
 
 
@@ -349,6 +335,21 @@ function end() {
     correct = 0;
     return false;
 }
+function setTime() {
+    var timerInterval = setInterval(function () {
+        time--;
+        timer.textContent = time;
+
+        if (time <= 0 || position >= questions.length) {
+            clearInterval(timerInterval);
+            end();
+            time = 0
+        }
+
+
+    }, 1000);
+}
+
 
 
 
